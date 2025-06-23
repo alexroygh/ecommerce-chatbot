@@ -5,6 +5,15 @@
 
 A full-stack project featuring a modern e-commerce chatbot with product search, exploration, and purchase simulation.
 
+## Continuous Integration (CI)
+
+This project uses [GitHub Actions](https://github.com/alexroygh/ecommerce-chatbot/actions) for continuous integration:
+
+- **Backend Tests**: Runs all backend Python tests and coverage on every push and pull request.
+- **Frontend Tests**: Runs all frontend Node.js/React tests and coverage on every push and pull request.
+
+The badges above show the current status of the test suites for each part of the project. Click a badge to view the latest workflow runs. 
+
 ## Tech Stack
 - Frontend: React, TailwindCSS
 - Backend: Python Flask, SQLite (SQLAlchemy)
