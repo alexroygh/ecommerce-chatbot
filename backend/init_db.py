@@ -1,6 +1,7 @@
 from backend.app import create_app, db
 from backend.models import Product
 
+
 def main():
     app = create_app()
     with app.app_context():

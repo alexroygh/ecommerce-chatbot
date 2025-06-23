@@ -3,7 +3,10 @@ import * as Yup from 'yup';
 export const usernameValidation = Yup.string()
   .required('Username is required')
   .min(3, 'Username must be at least 3 characters')
-  .matches(/^[a-zA-Z0-9_]+$/, 'Username can only contain letters, numbers, and underscores');
+  .matches(
+    /^[a-zA-Z0-9_]+$/,
+    'Username can only contain letters, numbers, and underscores'
+  );
 
 export const passwordValidation = Yup.string()
   .required('Password is required')
@@ -14,4 +17,4 @@ export const passwordValidation = Yup.string()
 export const loginRegisterSchema = Yup.object().shape({
   username: usernameValidation,
   password: passwordValidation,
-}); 
+});

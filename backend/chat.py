@@ -5,6 +5,7 @@ from backend.app import db
 import datetime
 from flask_cors import cross_origin
 import re
+import json
 
 chat_bp = Blueprint("chat", __name__)
 
@@ -103,7 +104,7 @@ def chat():
                 400,
             )
 
-        user_id = int(get_jwt_identity())
+        user_id = get_jwt_identity()
         message = data.get("message")
         timestamp = datetime.datetime.utcnow()
 
@@ -119,37 +120,103 @@ def chat():
         else:
             reply = "Sorry, I couldn't find any products matching your query."
 
-        # Store user message and bot reply in the database
-        db.session.add(ChatMessage(user_id=user_id, sender="user", message=message, timestamp=timestamp))
-        db.session.add(ChatMessage(user_id=user_id, sender="bot", message=reply, timestamp=timestamp))
+        # Store user message (plain text)
+        db.session.add(
+            ChatMessage(
+                user_id=user_id, sender="user", message=message, timestamp=timestamp
+            )
+        )
+        # Store bot message (full response as JSON string)
+        bot_message_json = json.dumps(
+            {
+                "reply": reply,
+                "products": (
+                    [
+                        {
+                            "id": p.id,
+                            "name": p.name,
+                            "price": p.price,
+                            "category": p.category,
+                            "description": p.description,
+                            "image_url": p.image_url,
+                            "stock": p.stock,
+                        }
+                        for p in products
+                    ]
+                    if products
+                    else []
+                ),
+                "timestamp": timestamp.isoformat(),
+            }
+        )
+        db.session.add(
+            ChatMessage(
+                user_id=user_id,
+                sender="bot",
+                message=bot_message_json,
+                timestamp=timestamp,
+            )
+        )
         db.session.commit()
 
         # Retrieve chat history for the user, ordered by timestamp
-        history = ChatMessage.query.filter_by(user_id=user_id).order_by(ChatMessage.timestamp.asc()).all()
-        history_serialized = [
-            {
-                "sender": m.sender,
-                "message": m.message,
-                "timestamp": m.timestamp.isoformat()
-            }
-            for m in history
-        ]
+        history = (
+            ChatMessage.query.filter_by(user_id=str(user_id))
+            .order_by(ChatMessage.timestamp.asc())
+            .all()
+        )
+        history_serialized = []
+        for m in history:
+            if m.sender == "bot":
+                try:
+                    bot_data = json.loads(m.message)
+                    history_serialized.append(
+                        {
+                            "sender": "bot",
+                            "message": bot_data.get("reply", ""),
+                            "products": bot_data.get("products", []),
+                            "timestamp": bot_data.get(
+                                "timestamp", m.timestamp.isoformat()
+                            ),
+                        }
+                    )
+                except Exception:
+                    history_serialized.append(
+                        {
+                            "sender": "bot",
+                            "message": m.message,
+                            "products": [],
+                            "timestamp": m.timestamp.isoformat(),
+                        }
+                    )
+            else:
+                history_serialized.append(
+                    {
+                        "sender": "user",
+                        "message": m.message,
+                        "timestamp": m.timestamp.isoformat(),
+                    }
+                )
 
         return jsonify(
             {
                 "reply": reply,
-                "products": [
-                    {
-                        "id": p.id,
-                        "name": p.name,
-                        "price": p.price,
-                        "category": p.category,
-                        "description": p.description,
-                        "image_url": p.image_url,
-                        "stock": p.stock,
-                    }
-                    for p in products
-                ] if products else [],
+                "products": (
+                    [
+                        {
+                            "id": p.id,
+                            "name": p.name,
+                            "price": p.price,
+                            "category": p.category,
+                            "description": p.description,
+                            "image_url": p.image_url,
+                            "stock": p.stock,
+                        }
+                        for p in products
+                    ]
+                    if products
+                    else []
+                ),
                 "timestamp": timestamp.isoformat(),
                 "history": history_serialized,
             }
@@ -168,3 +235,56 @@ def chat():
             ),
             500,
         )
+
+@chat_bp.route("", methods=["GET"])
+@chat_bp.route("/", methods=["GET"])
+@cross_origin(origins="*", supports_credentials=True)
+@jwt_required()
+def get_chat_history():
+    """
+    Get all chat messages for the current user (user and bot), ordered by timestamp.
+    """
+    try:
+        user_id = get_jwt_identity()
+        # Fetch all messages for this user, ordered by timestamp
+        history = (
+            ChatMessage.query.filter_by(user_id=str(user_id))
+            .order_by(ChatMessage.timestamp.asc())
+            .all()
+        )
+        history_serialized = []
+        for m in history:
+            if m.sender == "bot":
+                try:
+                    bot_data = json.loads(m.message)
+                    history_serialized.append(
+                        {
+                            "sender": "bot",
+                            "message": bot_data.get("reply", ""),
+                            "products": bot_data.get("products", []),
+                            "timestamp": bot_data.get(
+                                "timestamp", m.timestamp.isoformat()
+                            ),
+                        }
+                    )
+                except Exception:
+                    history_serialized.append(
+                        {
+                            "sender": "bot",
+                            "message": m.message,
+                            "products": [],
+                            "timestamp": m.timestamp.isoformat(),
+                        }
+                    )
+            else:
+                history_serialized.append(
+                    {
+                        "sender": "user",
+                        "message": m.message,
+                        "timestamp": m.timestamp.isoformat(),
+                    }
+                )
+        return jsonify({"history": history_serialized}), 200
+    except Exception as e:
+        print("Get chat history error:", str(e))
+        return jsonify({"history": [], "error": "Something went wrong"}), 500

@@ -4,16 +4,32 @@ import { useAuth } from '../context/AuthContext';
 
 export default function Chatbot() {
   const { user, logout } = useAuth();
-  const [messages, setMessages] = useState(() => {
-    const saved = localStorage.getItem('chat_history');
-    return saved ? JSON.parse(saved) : [];
-  });
+  const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const chatEndRef = useRef(null);
 
+  // Fetch chat history from backend on mount
   useEffect(() => {
-    localStorage.setItem('chat_history', JSON.stringify(messages));
+    const fetchHistory = async () => {
+      try {
+        const res = await api.get('/api/chat');
+        // Convert backend format to frontend format, including products
+        const history = (res.data.history || []).map((msg) => ({
+          sender: msg.sender,
+          text: msg.message,
+          products: msg.products, // include products for bot messages
+          timestamp: msg.timestamp,
+        }));
+        setMessages(history);
+      } catch (err) {
+        setMessages([]);
+      }
+    };
+    fetchHistory();
+  }, []);
+
+  useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
@@ -31,10 +47,14 @@ export default function Chatbot() {
       const res = await api.post('/api/chat', { message: input });
       setMessages((msgs) => [
         ...msgs,
-        { sender: 'bot', text: res.data.reply, products: res.data.products, timestamp: res.data.timestamp },
+        {
+          sender: 'bot',
+          text: res.data.reply,
+          products: res.data.products,
+          timestamp: res.data.timestamp,
+        },
       ]);
     } catch (err) {
-      console.log(err);
       setMessages((msgs) => [
         ...msgs,
         {
@@ -50,17 +70,19 @@ export default function Chatbot() {
 
   const handleReset = () => {
     setMessages([]);
-    localStorage.removeItem('chat_history');
+    // Optionally, you could add an API call to clear chat history on the backend
   };
 
   const renderBotMessage = (msg) => {
-    // If products are present, render as cards
     if (msg.products && Array.isArray(msg.products) && msg.products.length > 0) {
       const products = msg.products;
       return (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {products.map((p, idx) => (
-            <div key={p.id || idx} className="border rounded p-4 bg-white shadow flex flex-col items-center">
+            <div
+              key={p.id || idx}
+              className="border rounded p-4 bg-white shadow flex flex-col items-center"
+            >
               <img
                 src={p.image_url || 'https://via.placeholder.com/150?text=No+Image'}
                 alt={p.name}
@@ -76,7 +98,6 @@ export default function Chatbot() {
         </div>
       );
     }
-    // Fallback: plain text
     return <span>{msg.text}</span>;
   };
 

@@ -4,7 +4,7 @@ import json
 def test_register_and_login(client):
     # Register a new user
     response = client.post(
-        "/api/auth/register", json={"username": "testuser", "password": "testpass"}
+        "/api/auth/register", json={"username": "testuser", "password": "test123"}
     )
     assert (
         response.status_code == 201 or response.status_code == 400
@@ -12,7 +12,7 @@ def test_register_and_login(client):
 
     # Login with the new user
     response = client.post(
-        "/api/auth/login", json={"username": "testuser", "password": "testpass"}
+        "/api/auth/login", json={"username": "testuser", "password": "test123"}
     )
     assert response.status_code == 200
     data = response.get_json()
