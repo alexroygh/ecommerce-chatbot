@@ -1,5 +1,8 @@
 # E-commerce Sales Chatbot
 
+[![Backend Tests](https://img.shields.io/badge/backend%20tests-passing-brightgreen)](./uplyft/backend)
+[![Frontend Tests](https://img.shields.io/badge/frontend%20tests-passing-brightgreen)](./uplyft/frontend)
+
 A full-stack project featuring a modern e-commerce chatbot with product search, exploration, and purchase simulation.
 
 ## Tech Stack
