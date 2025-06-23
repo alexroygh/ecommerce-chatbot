@@ -24,9 +24,9 @@ def create_app():
     jwt.init_app(app)
     migrate.init_app(app, db)
 
-    from auth import auth_bp
-    from products import products_bp
-    from chat import chat_bp
+    from backend.auth import auth_bp
+    from backend.products import products_bp
+    from backend.chat import chat_bp
 
     app.register_blueprint(auth_bp, url_prefix="/api/auth")
     app.register_blueprint(products_bp, url_prefix="/api/products")

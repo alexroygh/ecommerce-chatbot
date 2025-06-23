@@ -1,5 +1,5 @@
-from app import create_app, db
-from models import Product
+from backend.app import create_app, db
+from backend.models import Product
 import random
 
 

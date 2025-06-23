@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from models import Product
+from backend.models import Product
 
 products_bp = Blueprint("products", __name__)
 
@@ -28,3 +28,18 @@ def list_products():
             for p in products
         ]
     )
+
+@products_bp.route("/<int:product_id>/", methods=["GET"])
+def get_product(product_id):
+    product = Product.query.get(product_id)
+    if not product:
+        return jsonify({"error": "Product not found"}), 404
+    return jsonify({
+        "id": product.id,
+        "name": product.name,
+        "description": product.description,
+        "price": product.price,
+        "category": product.category,
+        "image_url": product.image_url,
+        "stock": product.stock,
+    })
