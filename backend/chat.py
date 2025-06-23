@@ -14,6 +14,41 @@ chat_history = {}
 @cross_origin(origins="*", supports_credentials=True)
 @jwt_required()
 def chat():
+    """
+    Chat with the sales bot
+    ---
+    tags:
+      - Chat
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+            required:
+              - message
+    responses:
+      200:
+        description: Bot reply
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                reply:
+                  type: string
+                timestamp:
+                  type: string
+      400:
+        description: Missing or invalid JSON body
+      500:
+        description: Something went wrong
+    """
     try:
         data = request.get_json(force=True)
         if not data or "message" not in data:

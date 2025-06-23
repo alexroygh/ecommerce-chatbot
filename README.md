@@ -13,7 +13,7 @@ A full-stack project featuring a modern e-commerce chatbot with product search, 
 ## Live Deployments
 
 - **Frontend (GitHub Pages):** [https://alexroygh.github.io/ecommerce-chatbot/](https://alexroygh.github.io/ecommerce-chatbot/)
-- **Backend (Render.com):** [https://ecommerce-chatbot-55e9.onrender.com/](https://ecommerce-chatbot-55e9.onrender.com/)
+- **Backend (Render.com):** [https://ecommerce-chatbot-55e9.onrender.com/apidocs](https://ecommerce-chatbot-55e9.onrender.com/apidocs)
 - - Note: Backend uses a free instance which will spin down with inactivity, which can delay requests by 50 seconds or more.
 
 

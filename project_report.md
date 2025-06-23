@@ -64,6 +64,16 @@ This project is a full-stack e-commerce chatbot platform designed to enhance the
 
 ---
 
+## API Documentation (Swagger)
+
+Interactive API documentation is available via Swagger UI:
+
+- Visit: `http://localhost:5000/apidocs/`
+- For protected endpoints (e.g., /api/chat), click the "Authorize" button and enter your JWT token as:
+  ```
+  Bearer <your-access-token>
+  ```
+
 ## 5. Sample Queries & Results
 
 - **"Show me electronics"**

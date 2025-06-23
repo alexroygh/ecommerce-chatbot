@@ -5,6 +5,8 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from dotenv import load_dotenv
 import os
+from flasgger import Swagger
+
 
 load_dotenv()
 
@@ -23,6 +25,38 @@ def create_app():
     db.init_app(app)
     jwt.init_app(app)
     migrate.init_app(app, db)
+
+    swagger_config = {
+        "headers": [],
+        "specs": [
+            {
+                "endpoint": 'apispec_1',
+                "route": '/apispec_1.json',
+                "rule_filter": lambda rule: True,  # all in
+                "model_filter": lambda tag: True,  # all in
+            }
+        ],
+        "static_url_path": "/flasgger_static",
+        "swagger_ui": True,
+        "specs_route": "/apidocs/",
+    }
+    template = {
+        "swagger": "2.0",
+        "info": {
+            "title": "Uplyft E-commerce API",
+            "description": "API documentation for Uplyft E-commerce backend. JWT Bearer token required for protected endpoints.",
+            "version": "1.0.0"
+        },
+        "securityDefinitions": {
+            "BearerAuth": {
+                "type": "apiKey",
+                "name": "Authorization",
+                "in": "header",
+                "description": "JWT Authorization header using the Bearer scheme. Example: 'Authorization: Bearer {token}'"
+            }
+        },
+    }
+    Swagger(app, config=swagger_config, template=template)
 
     from backend.auth import auth_bp
     from backend.products import products_bp

@@ -6,6 +6,45 @@ products_bp = Blueprint("products", __name__)
 
 @products_bp.route("/", methods=["GET"])
 def list_products():
+    """
+    List all products or search by name/category
+    ---
+    tags:
+      - Products
+    parameters:
+      - name: search
+        in: query
+        type: string
+        description: Search term for product name
+      - name: category
+        in: query
+        type: string
+        description: Filter by category
+    responses:
+      200:
+        description: List of products
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+                  description:
+                    type: string
+                  price:
+                    type: number
+                  category:
+                    type: string
+                  image_url:
+                    type: string
+                  stock:
+                    type: integer
+    """
     query = Product.query
     search = request.args.get("search")
     category = request.args.get("category")
@@ -31,6 +70,42 @@ def list_products():
 
 @products_bp.route("/<int:product_id>/", methods=["GET"])
 def get_product(product_id):
+    """
+    Get product details by ID
+    ---
+    tags:
+      - Products
+    parameters:
+      - name: product_id
+        in: path
+        type: integer
+        required: true
+        description: ID of the product
+    responses:
+      200:
+        description: Product details
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                name:
+                  type: string
+                description:
+                  type: string
+                price:
+                  type: number
+                category:
+                  type: string
+                image_url:
+                  type: string
+                stock:
+                  type: integer
+      404:
+        description: Product not found
+    """
     product = Product.query.get(product_id)
     if not product:
         return jsonify({"error": "Product not found"}), 404
