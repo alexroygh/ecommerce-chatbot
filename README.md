@@ -1,7 +1,7 @@
 # E-commerce Sales Chatbot
 
-[![Backend Tests](https://img.shields.io/badge/backend%20tests-passing-brightgreen)](./uplyft/backend)
-[![Frontend Tests](https://img.shields.io/badge/frontend%20tests-passing-brightgreen)](./uplyft/frontend)
+[![Backend Tests](https://github.com/alexroygh/ecommerce-chatbot/actions/workflows/backend-tests.yml/badge.svg)](https://github.com/alexroygh/ecommerce-chatbot/actions/workflows/backend-tests.yml)
+[![Frontend Tests](https://github.com/alexroygh/ecommerce-chatbot/actions/workflows/frontend-tests.yml/badge.svg)](https://github.com/alexroygh/ecommerce-chatbot/actions/workflows/frontend-tests.yml)
 [![Frontend Deploy](https://img.shields.io/website?url=https%3A%2F%2Falexroygh.github.io%2Fecommerce-chatbot%2F&label=Frontend%20Deploy&style=flat&color=blue)](https://alexroygh.github.io/ecommerce-chatbot/)
 [![Backend Deploy](https://img.shields.io/website?url=https%3A%2F%2Fecommerce-chatbot-55e9.onrender.com%2Fhealth&label=Backend%20Deploy&style=flat&color=blue)](https://ecommerce-chatbot-55e9.onrender.com/)
 
