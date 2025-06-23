@@ -3,6 +3,60 @@ __pycache__/
 *.pyc
 *.pyo
 *.pyd
+*.sqlite3
+instance/
+.env
+.venv/
+venv/
+.mypy_cache/
+.pytest_cache/
+
+# Flask
+htmlcov/
+
+# Node.js
+node_modules/
+build/
+dist/
+coverage/
+.npm/
+
+# React/CRA
+.env.local
+.env.development
+.env.test
+.env.production
+
+# Misc
+.DS_Store
+.vscode/
+.idea/
+package-lock.json
+yarn.lock
+
+# Next.js
+.next/
+
+# TurboRepo
+.turbo/
+
+# Parcel
+.cache/
+.parcel-cache/
+
+# ESLint
+.eslintcache
+
+# pnpm
+.pnp.*
+
+# Logs
+npm-debug.log*
+log/
+
+# Flask-Migrate
+backend/migrations/__pycache__/
+backend/migrations/versions/*.pyc
 
 # Virtual environment
 venv/
@@ -12,21 +66,12 @@ backend/instance/
 *.db
 *.sqlite3
 
-# Flask-Migrate
-backend/migrations/__pycache__/
-backend/migrations/versions/*.pyc
-
-# Environment variables
-.env
-backend/.env
-
 # React
 frontend/node_modules/
 frontend/build/
 frontend/.env
 
 # OS files
-.DS_Store
 Thumbs.db
 
 # Logs
