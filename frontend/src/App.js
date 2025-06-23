@@ -5,6 +5,8 @@ import Register from './pages/Register';
 import Chatbot from './pages/Chatbot';
 import Products from './pages/Products';
 import { AuthProvider, useAuth } from './context/AuthContext';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function PrivateRoute({ children }) {
   const { user } = useAuth();
@@ -14,6 +16,7 @@ function PrivateRoute({ children }) {
 function App() {
   return (
     <AuthProvider>
+      <ToastContainer />
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />

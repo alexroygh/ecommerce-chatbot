@@ -2,6 +2,9 @@ from flask import Blueprint, request, jsonify
 from backend.app import db
 from backend.models import User
 from flask_jwt_extended import create_access_token
+import re
+from jsonschema import validate, ValidationError
+from backend.user_schema import get_user_schema
 
 auth_bp = Blueprint("auth", __name__)
 
@@ -43,10 +46,13 @@ def register():
         description: Username already exists
     """
     data = request.get_json()
+    user_schema = get_user_schema()
+    try:
+        validate(instance=data, schema=user_schema)
+    except ValidationError as e:
+        return jsonify({"msg": "Invalid username or password."}), 400
     username = data.get("username")
     password = data.get("password")
-    if not username or not password:
-        return jsonify({"msg": "Missing username or password"}), 400
     if User.query.filter_by(username=username).first():
         return jsonify({"msg": "Username already exists"}), 409
     user = User(username=username)
@@ -91,6 +97,11 @@ def login():
         description: Invalid credentials
     """
     data = request.get_json()
+    user_schema = get_user_schema()
+    try:
+        validate(instance=data, schema=user_schema)
+    except ValidationError as e:
+        return jsonify({"msg": "Invalid username or password."}), 401
     username = data.get("username")
     password = data.get("password")
     user = User.query.filter_by(username=username).first()
