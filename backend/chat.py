@@ -1,13 +1,12 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from backend.models import Product
+from backend.models import Product, ChatMessage
+from backend.app import db
 import datetime
 from flask_cors import cross_origin
 import re
 
 chat_bp = Blueprint("chat", __name__)
-
-chat_history = {}
 
 
 def search_by_id(message):
@@ -98,14 +97,15 @@ def chat():
                         "reply": "Missing or invalid JSON body",
                         "products": [],
                         "timestamp": datetime.datetime.utcnow().isoformat(),
+                        "history": [],
                     }
                 ),
                 400,
             )
 
-        user_id = get_jwt_identity()
+        user_id = int(get_jwt_identity())
         message = data.get("message")
-        timestamp = datetime.datetime.utcnow().isoformat()
+        timestamp = datetime.datetime.utcnow()
 
         products = (
             search_by_id(message)
@@ -115,32 +115,45 @@ def chat():
         )
 
         if products:
-            return jsonify(
-                {
-                    "reply": f"Found {len(products)} product(s).",
-                    "products": [
-                        {
-                            "id": p.id,
-                            "name": p.name,
-                            "price": p.price,
-                            "category": p.category,
-                            "description": p.description,
-                            "image_url": p.image_url,
-                            "stock": p.stock,
-                        }
-                        for p in products
-                    ],
-                    "timestamp": timestamp,
-                }
-            )
+            reply = f"Found {len(products)} product(s)."
         else:
-            return jsonify(
-                {
-                    "reply": "Sorry, I couldn't find any products matching your query.",
-                    "products": [],
-                    "timestamp": timestamp,
-                }
-            )
+            reply = "Sorry, I couldn't find any products matching your query."
+
+        # Store user message and bot reply in the database
+        db.session.add(ChatMessage(user_id=user_id, sender="user", message=message, timestamp=timestamp))
+        db.session.add(ChatMessage(user_id=user_id, sender="bot", message=reply, timestamp=timestamp))
+        db.session.commit()
+
+        # Retrieve chat history for the user, ordered by timestamp
+        history = ChatMessage.query.filter_by(user_id=user_id).order_by(ChatMessage.timestamp.asc()).all()
+        history_serialized = [
+            {
+                "sender": m.sender,
+                "message": m.message,
+                "timestamp": m.timestamp.isoformat()
+            }
+            for m in history
+        ]
+
+        return jsonify(
+            {
+                "reply": reply,
+                "products": [
+                    {
+                        "id": p.id,
+                        "name": p.name,
+                        "price": p.price,
+                        "category": p.category,
+                        "description": p.description,
+                        "image_url": p.image_url,
+                        "stock": p.stock,
+                    }
+                    for p in products
+                ] if products else [],
+                "timestamp": timestamp.isoformat(),
+                "history": history_serialized,
+            }
+        )
 
     except Exception as e:
         print("Chat route error:", str(e))
@@ -150,6 +163,7 @@ def chat():
                     "reply": "Something went wrong",
                     "products": [],
                     "timestamp": datetime.datetime.utcnow().isoformat(),
+                    "history": [],
                 }
             ),
             500,

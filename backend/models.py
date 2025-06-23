@@ -22,3 +22,11 @@ class Product(db.Model):
     category = db.Column(db.String(80), nullable=False)
     image_url = db.Column(db.String(255), nullable=True)
     stock = db.Column(db.Integer, default=0)
+
+
+class ChatMessage(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, nullable=False)
+    sender = db.Column(db.String(16), nullable=False)
+    message = db.Column(db.Text, nullable=False)
+    timestamp = db.Column(db.DateTime, nullable=False)

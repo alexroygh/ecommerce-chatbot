@@ -1,11 +1,22 @@
 from backend.app import create_app, db
-from backend.models import Product
+from backend.models import Product, User
 import random
 
 
 def seed():
     app = create_app()
     with app.app_context():
+        # Add test users
+        if not User.query.filter_by(username='test1').first():
+            user1 = User(username='test1')
+            user1.set_password('test123')
+            db.session.add(user1)
+        if not User.query.filter_by(username='test2').first():
+            user2 = User(username='test2')
+            user2.set_password('test123')
+            db.session.add(user2)
+        db.session.commit()
+
         if Product.query.count() == 0:
             categories = [
                 "Electronics",
