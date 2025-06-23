@@ -31,7 +31,7 @@ export default function Chatbot() {
       const res = await api.post('/api/chat', { message: input });
       setMessages((msgs) => [
         ...msgs,
-        { sender: 'bot', text: res.data.reply, timestamp: res.data.timestamp },
+        { sender: 'bot', text: res.data.reply, products: res.data.products, timestamp: res.data.timestamp },
       ]);
     } catch (err) {
       console.log(err);
@@ -51,6 +51,33 @@ export default function Chatbot() {
   const handleReset = () => {
     setMessages([]);
     localStorage.removeItem('chat_history');
+  };
+
+  const renderBotMessage = (msg) => {
+    // If products are present, render as cards
+    if (msg.products && Array.isArray(msg.products) && msg.products.length > 0) {
+      const products = msg.products;
+      return (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {products.map((p, idx) => (
+            <div key={p.id || idx} className="border rounded p-4 bg-white shadow flex flex-col items-center">
+              <img
+                src={p.image_url || 'https://via.placeholder.com/150?text=No+Image'}
+                alt={p.name}
+                className="w-24 h-24 object-cover mb-2 rounded"
+              />
+              <div className="font-bold text-lg mb-1">{p.name}</div>
+              <div className="text-gray-700 mb-1 italic">{p.category}</div>
+              <div className="text-gray-900 font-semibold mb-1">${p.price}</div>
+              <div className="text-xs text-gray-500 mb-2">Stock: {p.stock}</div>
+              <div className="text-sm text-gray-600 mb-2">{p.description}</div>
+            </div>
+          ))}
+        </div>
+      );
+    }
+    // Fallback: plain text
+    return <span>{msg.text}</span>;
   };
 
   return (
@@ -74,7 +101,7 @@ export default function Chatbot() {
                 <div className="text-xs opacity-60 mb-1">
                   {new Date(msg.timestamp).toLocaleTimeString()}
                 </div>
-                {msg.text}
+                {msg.sender === 'bot' ? renderBotMessage(msg) : msg.text}
               </div>
             </div>
           ))}
