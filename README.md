@@ -2,8 +2,20 @@
 
 [![Backend Tests](https://img.shields.io/badge/backend%20tests-passing-brightgreen)](./uplyft/backend)
 [![Frontend Tests](https://img.shields.io/badge/frontend%20tests-passing-brightgreen)](./uplyft/frontend)
+[![Frontend Deploy](https://img.shields.io/website?url=https%3A%2F%2Falexroygh.github.io%2Fecommerce-chatbot%2F&label=Frontend%20Deploy&style=flat&color=blue)](https://alexroygh.github.io/ecommerce-chatbot/)
+[![Backend Deploy](https://img.shields.io/website?url=https%3A%2F%2Fecommerce-chatbot-55e9.onrender.com%2Fhealth&label=Backend%20Deploy&style=flat&color=blue)](https://ecommerce-chatbot-55e9.onrender.com/)
+
+
+The badges above show the current status of the test suites and deployments for each part of the project. Click a badge to view the latest workflow runs or visit the live deployment. 
 
 A full-stack project featuring a modern e-commerce chatbot with product search, exploration, and purchase simulation.
+
+## Live Deployments
+
+- **Frontend (GitHub Pages):** [https://alexroygh.github.io/ecommerce-chatbot/](https://alexroygh.github.io/ecommerce-chatbot/)
+- **Backend (Render.com):** [https://ecommerce-chatbot-55e9.onrender.com/](https://ecommerce-chatbot-55e9.onrender.com/)
+- - Note: Backend uses a free instance which will spin down with inactivity, which can delay requests by 50 seconds or more.
+
 
 ## Continuous Integration (CI)
 
@@ -12,7 +24,6 @@ This project uses [GitHub Actions](https://github.com/alexroygh/ecommerce-chatbo
 - **Backend Tests**: Runs all backend Python tests and coverage on every push and pull request.
 - **Frontend Tests**: Runs all frontend Node.js/React tests and coverage on every push and pull request.
 
-The badges above show the current status of the test suites for each part of the project. Click a badge to view the latest workflow runs. 
 
 ## Tech Stack
 - Frontend: React, TailwindCSS

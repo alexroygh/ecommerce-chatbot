@@ -41,10 +41,9 @@ def create_app():
         methods=["GET", "POST", "OPTIONS"],
     )
 
-    # Add a direct CORS test route
-    @app.route("/api/cors-test", methods=["POST", "OPTIONS"])
-    def cors_test():
-        return {"msg": "CORS test OK"}
+    @app.route("/health")
+    def health():
+        return {"status": "ok"}, 200
 
     return app
 
