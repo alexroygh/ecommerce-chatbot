@@ -1,4 +1,4 @@
-# Backend - Uplyft E-commerce Chatbot
+# Backend - E-commerce Chatbot
 
 ## Setup
 

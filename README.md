@@ -1,4 +1,4 @@
-# Uplyft E-commerce Sales Chatbot
+# E-commerce Sales Chatbot
 
 A full-stack project featuring a modern e-commerce chatbot with product search, exploration, and purchase simulation.
 

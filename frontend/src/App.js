@@ -17,12 +17,26 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/chat" element={<PrivateRoute><Chatbot /></PrivateRoute>} />
-        <Route path="/products" element={<PrivateRoute><Products /></PrivateRoute>} />
+        <Route
+          path="/chat"
+          element={
+            <PrivateRoute>
+              <Chatbot />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/products"
+          element={
+            <PrivateRoute>
+              <Products />
+            </PrivateRoute>
+          }
+        />
         <Route path="*" element={<Navigate to="/chat" />} />
       </Routes>
     </AuthProvider>
   );
 }
 
-export default App; 
+export default App;

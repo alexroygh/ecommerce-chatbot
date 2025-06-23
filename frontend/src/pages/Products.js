@@ -21,7 +21,7 @@ export default function Products() {
     const res = await api.get(url);
     setProducts(res.data);
     // Extract unique categories
-    setCategories([...new Set(res.data.map(p => p.category))]);
+    setCategories([...new Set(res.data.map((p) => p.category))]);
   };
 
   return (
@@ -33,33 +33,47 @@ export default function Products() {
             className="border rounded p-2 flex-1"
             placeholder="Search products..."
             value={search}
-            onChange={e => setSearch(e.target.value)}
+            onChange={(e) => setSearch(e.target.value)}
           />
           <select
             className="border rounded p-2"
             value={category}
-            onChange={e => setCategory(e.target.value)}
+            onChange={(e) => setCategory(e.target.value)}
           >
             <option value="">All Categories</option>
-            {categories.map(cat => (
-              <option key={cat} value={cat}>{cat}</option>
+            {categories.map((cat) => (
+              <option key={cat} value={cat}>
+                {cat}
+              </option>
             ))}
           </select>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {products.map(product => (
-            <div key={product.id} className="border rounded p-4 flex flex-col items-center bg-gray-100">
-              <img src={product.image_url} alt={product.name} className="w-24 h-24 object-cover mb-2 rounded" />
+          {products.map((product) => (
+            <div
+              key={product.id}
+              className="border rounded p-4 flex flex-col items-center bg-gray-100"
+            >
+              <img
+                src={product.image_url}
+                alt={product.name}
+                className="w-24 h-24 object-cover mb-2 rounded"
+              />
               <div className="font-bold text-lg mb-1">{product.name}</div>
               <div className="text-gray-700 mb-1">{product.category}</div>
               <div className="text-gray-900 font-semibold mb-1">${product.price}</div>
               <div className="text-xs text-gray-500 mb-2">Stock: {product.stock}</div>
               <div className="text-sm text-gray-600 mb-2">{product.description}</div>
-              <button className="bg-blue-600 text-white px-4 py-1 rounded mt-2" disabled>Buy (Demo)</button>
+              <button
+                className="bg-blue-600 text-white px-4 py-1 rounded mt-2"
+                disabled
+              >
+                Buy (Demo)
+              </button>
             </div>
           ))}
         </div>
       </div>
     </div>
   );
-} 
+}

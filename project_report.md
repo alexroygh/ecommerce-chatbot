@@ -1,4 +1,4 @@
-# Uplyft E-commerce Sales Chatbot - Project Report
+# E-commerce Sales Chatbot - Project Report
 
 ## 1. Project Overview
 This project is a full-stack e-commerce chatbot platform designed to enhance the shopping experience by enabling users to search, explore, and simulate purchases of products via a conversational interface. The system is built with a modern, modular architecture, featuring a React frontend and a Python Flask backend, with JWT-based authentication and a mock inventory of 100+ products.
@@ -30,6 +30,7 @@ This project is a full-stack e-commerce chatbot platform designed to enhance the
   - `auth.py`: Auth endpoints
   - `products.py`: Product endpoints
   - `chat.py`: Chatbot endpoint
+  - `seed_db.py`: Database seeding
 
 ---
 
@@ -45,6 +46,7 @@ This project is a full-stack e-commerce chatbot platform designed to enhance the
   - **Flask-JWT-Extended:** Secure, stateless authentication
   - **Flask-SQLAlchemy:** ORM for easy database management
   - **Flask-CORS:** Cross-origin resource sharing for frontend-backend integration
+  - **Flask-Migrate:** Database migrations management
   - **SQLite:** Simple, file-based RDBMS for mock/demo data
 - **Design Patterns:**
   - **Blueprints (Flask):** Modular separation of API concerns
@@ -78,7 +80,7 @@ This project is a full-stack e-commerce chatbot platform designed to enhance the
 - **Session Management:**
   - Used JWT for stateless, secure sessions; React context for client-side state
 - **Mock Data Generation:**
-  - Automated script (`init_db.py`) to generate 100+ products with random categories, prices, and stock
+  - Automated script (`seed_db.py`) to generate 100+ products with random categories, prices, and stock
 - **Chatbot Logic:**
   - Implemented simple keyword-based search for demo; can be extended with NLP or LLMs
 - **Responsive UI:**
@@ -103,8 +105,9 @@ This project is a full-stack e-commerce chatbot platform designed to enhance the
 1. `cd backend`
 2. Create and activate a virtual environment
 3. `pip install -r requirements.txt`
-4. `python init_db.py` (to initialize the database)
-5. `flask run`
+4. `flask db upgrade` (to initialize the database schema)
+5. `python seed_db.py` (to seed the database)
+6. `flask run`
 
 ### Frontend
 1. `cd frontend`
@@ -114,6 +117,15 @@ This project is a full-stack e-commerce chatbot platform designed to enhance the
 ### Usage
 - Register a new user, login, and start chatting or exploring products.
 - All chat and product interactions are stored for session continuity.
+
+---
+
+## 9. Presentation Summary
+
+- **Objective:** Build a user-centric e-commerce chatbot for product search and purchase simulation
+- **Approach:** Modular, full-stack solution with modern frameworks and best practices
+- **Results:** Responsive, secure, and extensible platform with a clean codebase and clear documentation
+- **Learnings:** Emphasized modularity, user experience, and robust session management
 
 ---
 

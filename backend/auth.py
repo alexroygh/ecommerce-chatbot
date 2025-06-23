@@ -3,30 +3,32 @@ from app import db
 from models import User
 from flask_jwt_extended import create_access_token
 
-auth_bp = Blueprint('auth', __name__)
+auth_bp = Blueprint("auth", __name__)
 
-@auth_bp.route('/register', methods=['POST'])
+
+@auth_bp.route("/register", methods=["POST"])
 def register():
     data = request.get_json()
-    username = data.get('username')
-    password = data.get('password')
+    username = data.get("username")
+    password = data.get("password")
     if not username or not password:
-        return jsonify({'msg': 'Missing username or password'}), 400
+        return jsonify({"msg": "Missing username or password"}), 400
     if User.query.filter_by(username=username).first():
-        return jsonify({'msg': 'Username already exists'}), 409
+        return jsonify({"msg": "Username already exists"}), 409
     user = User(username=username)
     user.set_password(password)
     db.session.add(user)
     db.session.commit()
-    return jsonify({'msg': 'User registered successfully'}), 201
+    return jsonify({"msg": "User registered successfully"}), 201
 
-@auth_bp.route('/login', methods=['POST'])
+
+@auth_bp.route("/login", methods=["POST"])
 def login():
     data = request.get_json()
-    username = data.get('username')
-    password = data.get('password')
+    username = data.get("username")
+    password = data.get("password")
     user = User.query.filter_by(username=username).first()
     if user and user.check_password(password):
         access_token = create_access_token(identity=str(user.id))
-        return jsonify({'access_token': access_token}), 200
-    return jsonify({'msg': 'Invalid credentials'}), 401 
+        return jsonify({"access_token": access_token}), 200
+    return jsonify({"msg": "Invalid credentials"}), 401
