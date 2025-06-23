@@ -18,4 +18,4 @@ describe('Chatbot page', () => {
     );
     expect(screen.getByPlaceholderText(/type your message/i)).toBeInTheDocument();
   });
-}); 
+});

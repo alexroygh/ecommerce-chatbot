@@ -14,4 +14,4 @@ describe('Products page', () => {
     );
     expect(screen.getByText(/products/i)).toBeInTheDocument();
   });
-}); 
+});
