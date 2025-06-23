@@ -3,7 +3,7 @@
 [![Backend Tests](https://github.com/alexroygh/ecommerce-chatbot/actions/workflows/backend-tests.yml/badge.svg)](https://github.com/alexroygh/ecommerce-chatbot/actions/workflows/backend-tests.yml)
 [![Frontend Tests](https://github.com/alexroygh/ecommerce-chatbot/actions/workflows/frontend-tests.yml/badge.svg)](https://github.com/alexroygh/ecommerce-chatbot/actions/workflows/frontend-tests.yml)
 [![Frontend Deploy](https://img.shields.io/website?url=https%3A%2F%2Falexroygh.github.io%2Fecommerce-chatbot%2F&label=Frontend%20Deploy&style=flat&color=blue)](https://alexroygh.github.io/ecommerce-chatbot/)
-[![Backend Deploy](https://img.shields.io/website?url=https%3A%2F%2Fecommerce-chatbot-55e9.onrender.com%2Fhealth&label=Backend%20Deploy&style=flat&color=blue)](https://ecommerce-chatbot-55e9.onrender.com/)
+[![Backend Deploy](https://img.shields.io/website?url=https%3A%2F%2Fecommerce-chatbot-55e9.onrender.com%2Fhealth&label=Backend%20Deploy&style=flat&color=blue)](https://ecommerce-chatbot-55e9.onrender.com/health)
 
 
 The badges above show the current status of the test suites and deployments for each part of the project. Click a badge to view the latest workflow runs or visit the live deployment. 
