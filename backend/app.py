@@ -36,7 +36,7 @@ def create_app():
     CORS(
         app,
         supports_credentials=True,
-        resources={r"/api/*": {"origins": "http://localhost:3000"}},
+        resources={r"/api/*": {"origins": "*"}},
         allow_headers="*",
         methods=["GET", "POST", "OPTIONS"],
     )

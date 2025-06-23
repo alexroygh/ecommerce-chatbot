@@ -11,7 +11,7 @@ chat_history = {}
 
 @chat_bp.route("", methods=["POST"])
 @chat_bp.route("/", methods=["POST"])
-@cross_origin(origins="http://localhost:3000", supports_credentials=True)
+@cross_origin(origins="*", supports_credentials=True)
 @jwt_required()
 def chat():
     try:
