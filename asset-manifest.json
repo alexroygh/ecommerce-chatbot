@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/ecommerce-chatbot/static/css/main.a7d967bc.css",
+    "main.js": "/ecommerce-chatbot/static/js/main.7b604b5f.js",
+    "index.html": "/ecommerce-chatbot/index.html",
+    "main.a7d967bc.css.map": "/ecommerce-chatbot/static/css/main.a7d967bc.css.map",
+    "main.7b604b5f.js.map": "/ecommerce-chatbot/static/js/main.7b604b5f.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.a7d967bc.css",
+    "static/js/main.7b604b5f.js"
+  ]
+}
