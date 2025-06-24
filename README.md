@@ -11,6 +11,16 @@ A full-stack project featuring a modern e-commerce chatbot with product search, 
 
 ---
 
+<div>
+  <a href="https://www.loom.com/share/0ebc52cd81824cf7a9f61330e170c915">
+    <p>Loom | Free Screen & Video Recording Software | Loom - 24 June 2025 - Watch Video</p>
+  </a>
+  <a href="https://www.loom.com/share/0ebc52cd81824cf7a9f61330e170c915">
+    <img style="max-width:300px;" src="https://cdn.loom.com/sessions/thumbnails/0ebc52cd81824cf7a9f61330e170c915-e6c0870f80fb2f33-full-play.gif">
+  </a>
+</div>
+<div style="position: relative; padding-bottom: 56.25%; height: 0;"><iframe src="https://www.loom.com/embed/0ebc52cd81824cf7a9f61330e170c915?sid=bc840602-c7d9-423e-b94f-54e3e1f9a560" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
+
 # Project Overview
 This project is a full-stack e-commerce chatbot platform involving a conversational interface. The system is built with a modern, modular architecture, featuring a React frontend and a Python Flask backend, with JWT-based authentication and a mock inventory of 50 products and 2 test users.
 
