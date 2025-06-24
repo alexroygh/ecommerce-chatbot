@@ -50,7 +50,6 @@ def search_by_category(message):
 
 
 @chat_bp.route("", methods=["POST"])
-@chat_bp.route("/", methods=["POST"])
 @cross_origin(origins="*", supports_credentials=True)
 @jwt_required()
 def chat():
@@ -74,7 +73,7 @@ def chat():
               - message
     responses:
       200:
-        description: Bot reply
+        description: Bot reply and updated chat history
         content:
           application/json:
             schema:
@@ -82,8 +81,40 @@ def chat():
               properties:
                 reply:
                   type: string
+                products:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id: { type: integer }
+                      name: { type: string }
+                      price: { type: number }
+                      category: { type: string }
+                      description: { type: string }
+                      image_url: { type: string }
+                      stock: { type: integer }
                 timestamp:
                   type: string
+                history:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      sender: { type: string }
+                      message: { type: string }
+                      products:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id: { type: integer }
+                            name: { type: string }
+                            price: { type: number }
+                            category: { type: string }
+                            description: { type: string }
+                            image_url: { type: string }
+                            stock: { type: integer }
+                      timestamp: { type: string }
       400:
         description: Missing or invalid JSON body
       500:
@@ -237,12 +268,46 @@ def chat():
         )
 
 @chat_bp.route("", methods=["GET"])
-@chat_bp.route("/", methods=["GET"])
 @cross_origin(origins="*", supports_credentials=True)
 @jwt_required()
 def get_chat_history():
     """
     Get all chat messages for the current user (user and bot), ordered by timestamp.
+    ---
+    tags:
+      - Chat
+    security:
+      - BearerAuth: []
+    responses:
+      200:
+        description: All chat messages for the user
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                history:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      sender: { type: string }
+                      message: { type: string }
+                      products:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id: { type: integer }
+                            name: { type: string }
+                            price: { type: number }
+                            category: { type: string }
+                            description: { type: string }
+                            image_url: { type: string }
+                            stock: { type: integer }
+                      timestamp: { type: string }
+      500:
+        description: Something went wrong
     """
     try:
         user_id = get_jwt_identity()
