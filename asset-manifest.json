@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/ecommerce-chatbot/static/css/main.8be48446.css",
-    "main.js": "/ecommerce-chatbot/static/js/main.05a70512.js",
+    "main.css": "/ecommerce-chatbot/static/css/main.ce4a66c0.css",
+    "main.js": "/ecommerce-chatbot/static/js/main.6a5a5db8.js",
     "index.html": "/ecommerce-chatbot/index.html",
-    "main.8be48446.css.map": "/ecommerce-chatbot/static/css/main.8be48446.css.map",
-    "main.05a70512.js.map": "/ecommerce-chatbot/static/js/main.05a70512.js.map"
+    "main.ce4a66c0.css.map": "/ecommerce-chatbot/static/css/main.ce4a66c0.css.map",
+    "main.6a5a5db8.js.map": "/ecommerce-chatbot/static/js/main.6a5a5db8.js.map"
   },
   "entrypoints": [
-    "static/css/main.8be48446.css",
-    "static/js/main.05a70512.js"
+    "static/css/main.ce4a66c0.css",
+    "static/js/main.6a5a5db8.js"
   ]
 }
