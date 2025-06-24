@@ -12,7 +12,7 @@ A full-stack project featuring a modern e-commerce chatbot with product search, 
 ---
 
 # Project Overview
-This project is a full-stack e-commerce chatbot platform designed to enhance the shopping experience by enabling users to search, explore, and simulate purchases of products via a conversational interface. The system is built with a modern, modular architecture, featuring a React frontend and a Python Flask backend, with JWT-based authentication and a mock inventory of 100+ products.
+This project is a full-stack e-commerce chatbot platform involving a conversational interface. The system is built with a modern, modular architecture, featuring a React frontend and a Python Flask backend, with JWT-based authentication and a mock inventory of 50 products and 2 test users.
 
 ---
 
@@ -20,6 +20,23 @@ This project is a full-stack e-commerce chatbot platform designed to enhance the
 - **Frontend (GitHub Pages):** [https://alexroygh.github.io/ecommerce-chatbot/](https://alexroygh.github.io/ecommerce-chatbot/)
 - **Backend (Render.com):** [https://ecommerce-chatbot-55e9.onrender.com/apidocs](https://ecommerce-chatbot-55e9.onrender.com/apidocs)
 - Note: Backend uses a free instance which will spin down with inactivity, which can delay requests by 50 seconds or more.
+
+---
+
+## Sample Test Users
+
+You can use the following test users to log in and try out the app:
+
+- **Username:** test1  |  **Password:** test123
+- **Username:** test2  |  **Password:** test123
+
+---
+
+## Sample Queries
+- **"Show me electronics"**
+- **"Find books"**
+- **"Do you have tennis equipment?"**
+- **"Show some toys"**
 
 ---
 
@@ -33,7 +50,7 @@ This project is a full-stack e-commerce chatbot platform designed to enhance the
   - Product explorer with search and filter
 - **Backend (Flask + SQLAlchemy + JWT):**
   - RESTful API for authentication, product search, and chat
-  - SQLite database with 100+ mock products
+  - SQLite database with 50 mock products and 2 test users
   - JWT-based authentication and session management
   - Simple keyword-based chatbot logic
 
@@ -73,20 +90,15 @@ This project is a full-stack e-commerce chatbot platform designed to enhance the
 ---
 
 ## API Endpoints
+Full Swagger api docs here: [https://ecommerce-chatbot-55e9.onrender.com/apidocs](https://ecommerce-chatbot-55e9.onrender.com/apidocs).
+For protected endpoints (e.g., /api/chat), click the "Authorize" button and enter your JWT token as:
+  ```
+  Bearer <your-access-token>
+  ```
 - `POST /api/auth/register` — Register a new user
 - `POST /api/auth/login` — Login and receive JWT
 - `GET /api/products` — List/search products (supports `search` and `category` query params)
 - `POST /api/chat` — Send a message to the chatbot (JWT required)
-
----
-
-## API Documentation (Swagger)
-Interactive API documentation is available via Swagger UI:
-- Visit: `http://localhost:5000/apidocs/`
-- For protected endpoints (e.g., /api/chat), click the "Authorize" button and enter your JWT token as:
-  ```
-  Bearer <your-access-token>
-  ```
 
 ---
 
@@ -208,17 +220,7 @@ sequenceDiagram
 
 ---
 
-## 1. Sample Queries & Results
-- **"Show me electronics"**
-  - Returns a list of products in the Electronics category
-- **"Find books under $50"**
-  - (Can be extended: currently, search by keyword 'books')
-- **"What is Product 10?"**
-  - Returns details for Product 10 if it exists
-
----
-
-## 2. Challenges & Solutions
+## Challenges & Solutions
 - **Session Management:**
   - Used JWT for stateless, secure sessions; React context for client-side state
 - **Mock Data Generation:**
@@ -232,10 +234,10 @@ sequenceDiagram
 
 ---
 
-## 3. Setup & Execution Instructions
+## Setup & Execution Instructions
 ### Backend
 1. `cd backend`
-2. Create and activate a virtual environment
+2. Create and activate a virtual environment (conda can be used)
 3. `pip install -r requirements.txt`
 4. `flask db upgrade` (to initialize the database schema)
 5. `python seed_db.py` (to seed the database)
@@ -249,5 +251,81 @@ sequenceDiagram
 ### Usage
 - Register a new user, login, and start chatting or exploring products.
 - All chat and product interactions are stored for session continuity.
+
+---
+
+## Running Backend Tests
+
+To run the backend tests, make sure you have installed the requirements:
+
+```bash
+pip install -r requirements.txt
+```
+
+Then run:
+
+```bash
+pytest
+```
+
+This will automatically discover and run all tests in the backend directory.
+
+For coverage report:
+
+```bash
+pytest --cov=.
+```
+
+---
+
+## Running Frontend Tests
+
+To run the frontend tests, first install dependencies:
+
+```bash
+cd frontend
+npm install
+```
+
+Then run:
+
+```bash
+npm test
+```
+
+This will run all tests in the `frontend/src/pages/__tests__/` directory and any other test files in the frontend.
+
+---
+
+## Accessing the Database (SQLite)
+
+You can inspect the database and view tables using the `sqlite3` command-line tool:
+
+1. Open a terminal and navigate to the backend directory:
+   ```bash
+   cd backend
+   ```
+2. Open the database:
+   ```bash
+   sqlite3 ../instance/ecommerce.db
+   ```
+3. List all tables:
+   ```sql
+   .tables
+   ```
+4. View the schema for a table (e.g., `user`):
+   ```sql
+   .schema user
+   ```
+5. Query data from a table (e.g., `chat_message`):
+   ```sql
+   SELECT * FROM chat_message;
+   SELECT * FROM product;
+   SELECT * from user;
+   ```
+6. Exit sqlite3:
+   ```sql
+   .exit
+   ```
 
 ---
